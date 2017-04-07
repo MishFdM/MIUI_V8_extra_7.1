@@ -1,45 +1,57 @@
-getprop("ro.product.device") == "libra" || abort("E3004: This package is for \"libra\" devices; this is a \"" + getprop("ro.product.device") + "\".");
-package_extract_file("META-INF/com/miui/cust_init", "/cache/cust_init");
-set_metadata("/cache/cust_init", "uid", 0, "gid", 0, "mode", 0555, "capabilities", 0x0);
-run_program("/cache/cust_init");
-delete("/cache/cust_init");
-show_progress(0.650000, 0);
-show_progress(0.100000, 0);
-mount("ext4", "EMMC", "/dev/block/bootdevice/by-name/cust", "/cust", "max_batch_time=0,commit=1,data=ordered,barrier=1,errors=panic,nodelalloc");
+getprop("ro.build.product") == "song" || abort("E3004: This package is for \"song\" devices; this is a \"" + getprop("ro.product.device") + "\".");
+show_progress(0.100000, 5);
+mount("ext4", "EMMC", "/dev/block/platform/soc/by-name/cust", "/cust", "max_batch_time=0,commit=1,data=ordered,barrier=1,errors=panic,nodelalloc");
+delete("/cust/app/customized/partner-MiShop/partner-MiShop.apk",
+       "/cust/app/customized/ota-miui-MiuiForum/ota-miui-MiuiForum.apk",
+       "/cust/app/customized/ota-miui-MiGalleryLockscreen/ota-miui-MiGalleryLockscreen.apk",
+       "/cust/app/customized/partner-XMRemoteController/partner-XMRemoteController.apk",
+       "/cust/app/customized/partner-BaiduSpeechService/partner-BaiduSpeechService.apk",
+       "/cust/app/customized/partner-Zixun/partner-Zixun.apk",
+       "/cust/app/customized/ota-miui-XiaomiSmartHome/ota-miui-XiaomiSmartHome.apk");
+delete("/cust/app/customized/recommended-3rd-com.immomo.momo.apk",
+       "/cust/app/customized/recommended-3rd-com.immomo.momo/recommended-3rd-com.immomo.momo.apk",
+       "/cust/app/customized/recommended-3rd-com.juanpi.ui.apk",
+       "/cust/app/customized/recommended-3rd-com.juanpi.ui/recommended-3rd-com.juanpi.ui.apk",
+       "/cust/app/customized/recommended-3rd-com.qiyi.video.apk",
+       "/cust/app/customized/recommended-3rd-com.qiyi.video/recommended-3rd-com.qiyi.video.apk",
+       "/cust/app/customized/recommended-3rd-com.qzone.apk",
+       "/cust/app/customized/recommended-3rd-com.qzone/recommended-3rd-com.qzone.apk",
+       "/cust/app/customized/recommended-3rd-com.sina.weibo.apk",
+       "/cust/app/customized/recommended-3rd-com.sina.weibo/recommended-3rd-com.sina.weibo.apk",
+       "/cust/app/customized/recommended-3rd-com.tencent.qqmusic.apk",
+       "/cust/app/customized/recommended-3rd-com.tencent.qqmusic/recommended-3rd-com.tencent.qqmusic.apk",
+       "/cust/app/customized/recommended-3rd-com.tuniu.app.ui.apk",
+       "/cust/app/customized/recommended-3rd-com.tuniu.app.ui/recommended-3rd-com.tuniu.app.ui.apk",
+       "/cust/app/customized/recommended-3rd-tv.danmaku.bili.apk",
+       "/cust/app/customized/recommended-3rd-tv.danmaku.bili/recommended-3rd-tv.danmaku.bili.apk",
+       "/cust/app/customized/partner-XunfeiSpeechService3.apk",
+       "/cust/app/customized/partner-XunfeiSpeechService3/partner-XunfeiSpeechService3.apk",
+       "/cust/app/customized/partner-AmazonKindle.apk",
+       "/cust/app/customized/partner-AmazonKindle/partner-AmazonKindle.apk");
 delete_recursive("/cust");
 package_extract_dir("cust", "/cust") || abort("Failed to extract dir from \"cust\" to \"/cust\".");
 set_metadata_recursive("/cust", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
-show_progress(0.050000, 5);
-package_extract_file("boot.img", "/dev/block/bootdevice/by-name/boot");
 show_progress(0.200000, 10);
-
-# ---- radio update tasks ----
-
-ui_print("Patching firmware images...");
-package_extract_file("firmware-update/sdi.mbn", "/dev/block/bootdevice/by-name/sdi");
-package_extract_file("firmware-update/rpm.mbn", "/dev/block/bootdevice/by-name/rpm");
-package_extract_file("firmware-update/tz.mbn", "/dev/block/bootdevice/by-name/tz");
-package_extract_file("firmware-update/emmc_appsboot.mbn", "/dev/block/bootdevice/by-name/aboot");
-package_extract_file("firmware-update/sbl1.mbn", "/dev/block/bootdevice/by-name/sbl1");
-package_extract_file("firmware-update/pmic.mbn", "/dev/block/bootdevice/by-name/pmic");
-package_extract_file("firmware-update/hyp.mbn", "/dev/block/bootdevice/by-name/hyp");
-package_extract_file("firmware-update/rpm.mbn", "/dev/block/bootdevice/by-name/rpmbak");
-package_extract_file("firmware-update/tz.mbn", "/dev/block/bootdevice/by-name/tzbak");
-package_extract_file("firmware-update/emmc_appsboot.mbn", "/dev/block/bootdevice/by-name/abootbak");
-package_extract_file("firmware-update/sbl1.mbn", "/dev/block/bootdevice/by-name/sbl1bak");
-package_extract_file("firmware-update/pmic.mbn", "/dev/block/bootdevice/by-name/pmicbak");
-package_extract_file("firmware-update/hyp.mbn", "/dev/block/bootdevice/by-name/hypbak");
-package_extract_file("firmware-update/NON-HLOS.bin", "/dev/block/bootdevice/by-name/modem");
-package_extract_file("firmware-update/logo.img", "/dev/block/bootdevice/by-name/logo");
-package_extract_file("firmware-update/BTFM.bin", "/dev/block/bootdevice/by-name/bluetooth");
-package_extract_file("firmware-update/bk2.img", "/dev/block/bootdevice/by-name/bk2");
+package_extract_file("boot.img", "/dev/block/platform/soc/by-name/boot");
+ui_print("Writing firstboot...");
+package_extract_file("firstboot.img", "/dev/block/platform/soc/by-name/firstboot");
+ui_print("Writing trustzone...");
+package_extract_file("trustzone.img", "/dev/block/platform/soc/by-name/trustzone");
+ui_print("Writing secondboot...");
+package_extract_file("secondboot.img", "/dev/block/platform/soc/by-name/secondboot");
+ui_print("Writing modemarm...");
+package_extract_file("modemarm.bin", "/dev/block/platform/soc/by-name/modemarm");
+ui_print("Writing modemdsp...");
+package_extract_file("modemdsp.bin", "/dev/block/platform/soc/by-name/modemdsp");
 package_extract_file("META-INF/com/miui/miui_update", "/cache/miui_update");
 set_metadata("/cache/miui_update", "uid", 0, "gid", 0, "mode", 0555, "capabilities", 0x0);
 run_program("/cache/miui_update");
 delete("/cache/miui_update");
+show_progress(0.600000, 250);
 ui_print("Installing MIUI update...");
-block_image_update("/dev/block/bootdevice/by-name/system", package_extract_file("system.transfer.list"), "system.new.dat", "system.patch.dat") ||
+block_image_update("/dev/block/platform/soc/by-name/system", package_extract_file("system.transfer.list"), "system.new.dat", "system.patch.dat") ||
   abort("E1001: Failed to update system image.");
+show_progress(0.100000, 2);
 unmount("/cust");
 delete_recursive("/data/app/3rd-Didi");
 delete_recursive("/cust/app/customized/3rd-Didi");
@@ -259,6 +271,10 @@ delete_recursive("/data/cust");
 delete_recursive("/data/miui/cust_variant");
 delete_recursive("/data/miui/app/recommended");
 unmount("/cust");
+package_extract_dir("patch", "/tmp/patch");
+run_program("/sbin/busybox", "unzip", "/tmp/patch/patch.zip", "META-INF/com/google/android/*", "-d", "/tmp/patch");
+run_program("/sbin/busybox", "sh", "/tmp/patch/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/patch/patch.zip");
+ui_print("Done");
 ui_print("Installing custom recovery");
 ui_print("Flashing TWRP Touch recovery...");
 package_extract_file("recovery/twrp.img", "/dev/block/bootdevice/by-name/recovery");
