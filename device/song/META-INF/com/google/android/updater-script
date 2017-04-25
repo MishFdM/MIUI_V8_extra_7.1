@@ -277,5 +277,5 @@ run_program("/sbin/busybox", "sh", "/tmp/patch/META-INF/com/google/android/updat
 ui_print("Done");
 ui_print("Installing custom recovery");
 ui_print("Flashing TWRP Touch recovery...");
-package_extract_file("recovery/twrp.img", "/dev/block/bootdevice/by-name/recovery");
+package_extract_file("recovery/twrp.img", "/dev/block/platform/soc/by-name/recovery");
 set_progress(1);
