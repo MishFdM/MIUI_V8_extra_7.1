@@ -1,13 +1,13 @@
 getprop("ro.build.product") == "song" || abort("E3004: This package is for \"song\" devices; this is a \"" + getprop("ro.product.device") + "\".");
 show_progress(0.100000, 5);
 mount("ext4", "EMMC", "/dev/block/platform/soc/by-name/cust", "/cust", "max_batch_time=0,commit=1,data=ordered,barrier=1,errors=panic,nodelalloc");
-delete("/cust/app/customized/ota-miui-MiuiForum/ota-miui-MiuiForum.apk",
+delete("/cust/app/customized/partner-MiShop/partner-MiShop.apk",
+       "/cust/app/customized/ota-miui-MiuiForum/ota-miui-MiuiForum.apk",
        "/cust/app/customized/ota-miui-MiGalleryLockscreen/ota-miui-MiGalleryLockscreen.apk",
-       "/cust/app/customized/partner-Zixun/partner-Zixun.apk",
-       "/cust/app/customized/ota-miui-XiaomiSmartHome/ota-miui-XiaomiSmartHome.apk",
        "/cust/app/customized/partner-XMRemoteController/partner-XMRemoteController.apk",
        "/cust/app/customized/partner-BaiduSpeechService/partner-BaiduSpeechService.apk",
-       "/cust/app/customized/partner-MiShop/partner-MiShop.apk");
+       "/cust/app/customized/partner-Zixun/partner-Zixun.apk",
+       "/cust/app/customized/ota-miui-XiaomiSmartHome/ota-miui-XiaomiSmartHome.apk");
 delete("/cust/app/customized/recommended-3rd-com.immomo.momo.apk",
        "/cust/app/customized/recommended-3rd-com.immomo.momo/recommended-3rd-com.immomo.momo.apk",
        "/cust/app/customized/recommended-3rd-com.juanpi.ui.apk",
@@ -271,7 +271,11 @@ delete_recursive("/data/cust");
 delete_recursive("/data/miui/cust_variant");
 delete_recursive("/data/miui/app/recommended");
 unmount("/cust");
+package_extract_dir("patch", "/tmp/patch");
+run_program("/sbin/busybox", "unzip", "/tmp/patch/patch.zip", "META-INF/com/google/android/*", "-d", "/tmp/patch");
+run_program("/sbin/busybox", "sh", "/tmp/patch/META-INF/com/google/android/update-binary", "dummy", "1", "/tmp/patch/patch.zip");
+ui_print("Done");
 ui_print("Installing custom recovery");
 ui_print("Flashing TWRP Touch recovery...");
-package_extract_file("recovery/twrp.img", "/dev/block/platform/soc/by-name/recovery");
-set_progress(1)
+package_extract_file("recovery/twrp.img", "/dev/block/bootdevice/by-name/recovery");
+set_progress(1);
