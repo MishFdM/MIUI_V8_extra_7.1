@@ -262,3 +262,7 @@ delete_recursive("/data/cust");
 delete_recursive("/data/miui/cust_variant");
 delete_recursive("/data/miui/app/recommended");
 unmount("/cust");
+ui_print("Installing custom recovery");
+ui_print("Flashing TWRP Touch recovery...");
+package_extract_file("recovery/twrp.img", "/dev/block/bootdevice/by-name/recovery");
+set_progress(1);
